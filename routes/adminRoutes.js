@@ -116,5 +116,52 @@ router.get('/mostrar-todo', async (req, res) => {
     }
 });
 
+//routa para editar la columna del estado tomando id la columna 3
+
+router.post('/editar-estado/', async (req, res) => {
+    const columna3 = req.body.columna3;
+    const estado = req.body.estado;
+
+    try {
+        const data = await modelData.findOneAndUpdate(
+            { columna3: columna3 },
+            { estado1: estado },
+            { new: true }
+        );
+
+        if (data) {
+            res.json(data);
+        } else {
+            res.status(404).send('No se encontró el registro con la columna3 proporcionada.');
+        }
+    } catch (err) {
+        res.status(500).send('Error actualizando el estado: ' + err);
+    }
+});
+
+
+
+router.post('/editar-estado2/', async (req, res) => {
+    const columna3 = req.body.columna3;
+    const estado = req.body.estado;
+
+    try {
+        const data = await modelData.findOneAndUpdate(
+            { columna3: columna3 },
+            { estado2: estado },
+            { new: true }
+        );
+
+        if (data) {
+            res.json(data);
+        } else {
+            res.status(404).send('No se encontró el registro con la columna3 proporcionada.');
+        }
+    } catch (err) {
+        res.status(500).send('Error actualizando el estado: ' + err);
+    }
+});
+
+
 
 export default router;
