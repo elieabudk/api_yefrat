@@ -162,6 +162,16 @@ router.post('/editar-estado2/', async (req, res) => {
     }
 });
 
+// ruta para borrar todos los datos
+router.get('/borrar-todos', async (req, res) => {
+    try {
+        // Elimina todos los documentos de la colección modelData
+        await modelData.deleteMany({});
+        res.status(200).send('Todos los registros han sido eliminados.');
+    } catch (err) {
+        res.status(500).send('Error al borrar los registros: ' + err);
+    }
+});
 
 
 export default router;
