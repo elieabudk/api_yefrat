@@ -37,7 +37,8 @@ app.use(cors({
         "http://localhost:5501", 
         "http://127.0.0.1:5501", 
         "https://spontaneous-torrone-6da1a7.netlify.app",
-        "https://spontaneous-torrone-6da1a7.netlify.app/separar_rutas.html"
+        "https://spontaneous-torrone-6da1a7.netlify.app/separar_rutas.html",
+        "https://germany-without-pastor-assessing.trycloudflare.com"
     ], 
     methods: ["GET", "POST", "PUT", "DELETE"], 
     credentials: true,
@@ -60,10 +61,6 @@ app.get("/inicio", (req, res) => {
 // rutas
 app.use("/api/users", userRoutes)
 //app.use("/api/tickets", ticketRoutes)
-
-
-
-
 
 
 
