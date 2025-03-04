@@ -97,10 +97,11 @@ router.post('/guardar-datos', async (req, res) => {
 
 // Nueva ruta para mostrar datos a partir de el tabla id    
 router.post('/mostrar-datos', async (req, res) => {
+    const columna4 = req.body.columna4;
     const tablaId = req.body.tablaId;
     try {
         // Cambia la búsqueda para que sea en columna4
-        const data = await modelData.find({ columna4: tablaId });
+        const data = await modelData.find({ columna4: columna4, tablaId: tablaId });
         res.json(data);
     } catch (err) {
         res.status(500).send('Error fetching data: ' + err);
@@ -163,13 +164,37 @@ router.post('/editar-estado2/', async (req, res) => {
 });
 
 // ruta para borrar todos los datos
-router.get('/borrar-todos', async (req, res) => {
+router.post('/borrar-todos-empresas', async (req, res) => {
+    const tablaId = req.body.tablaId;
     try {
         // Elimina todos los documentos de la colección modelData
-        await modelData.deleteMany({});
+        await modelData.deleteMany({ tablaId: tablaId });
         res.status(200).send('Todos los registros han sido eliminados.');
     } catch (err) {
         res.status(500).send('Error al borrar los registros: ' + err);
+    }
+});
+
+
+//ruta para mostrar los datos de las empresas
+
+router.post('/mostrar-datos-empresas', async (req, res) => {
+    const tablaId = req.body.tablaId;
+    
+    if (!tablaId) {
+        return res.status(400).send('El tablaId es requerido');
+    }
+
+    try {
+        const data = await modelData.find({ tablaId: tablaId });
+        
+        if (data.length === 0) {
+            return res.status(404).send('No se encontraron datos para el tablaId proporcionado');
+        }
+        
+        res.json(data);
+    } catch (err) {
+        res.status(500).send('Error fetching data: ' + err);
     }
 });
 
