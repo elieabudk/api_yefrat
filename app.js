@@ -4,6 +4,7 @@ import morgan from "morgan"
 import mongoose from "mongoose"
 import userRoutes from "./routes/adminRoutes.js"
 import cors from "cors"
+import protectedRoutes from "./routes/protected.routes.js";
 
 //import ticketRoutes from "./routes/ticket.routes.js"
 
@@ -62,6 +63,7 @@ app.get("/inicio", (req, res) => {
 
 // rutas
 app.use("/api/users", userRoutes)
+app.use("/api/protected", protectedRoutes);
 //app.use("/api/tickets", ticketRoutes)
 
 

@@ -4,75 +4,14 @@ import modelAdmin from '../models/modelAdmin.js';
 import modelData from '../models/modelData.js';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
+import { register, login } from '../controllers/auth.controller.js';
 
 
 
 const router = express.Router();
 
-router.post('/signup', async (req, res) => {
-    let user;
-    //verifica si el usuario existe
-    user = await modelAdmin.findOne({usuario: req.body.usuario});
-    if(user) return res.status(400).json({message: "El usuario ya existe en usuarios"});
-
-    //Crear el nuevo usuario
-    user = new modelAdmin({
-        usuario: req.body.usuario,
-        password: req.body.password
-    });
-
-    //Guardar el nuevo usuario
-    //Controlar los posibles errores
-    try{
-        await user.save();
-        const token = jwt.sign(
-            {
-                _id: user._id,
-                usuario: user.usuario,
-            },
-            process.env.SECRET_KEY,
-            {
-                expiresIn: '1h'
-            }
-        );
-        res
-        .status(201)
-        .header("Authorization", token)
-        .json({
-            user: {
-            message: "Usuario creado correctamente",
-            usuario: user.usuario,
-            password: user.password,
-        },
-    token,});
-    }catch(error){
-        res.status(500).sendStatus("Algo salio mal");
-    }
-});
-
-
-router.post("/login", async (req, res) => {
-    const user = await modelAdmin.findOne({ usuario: req.body.usuario });
-    if (!user) return res.status(400).send("Invalid email or password.");
-  
-    const validPassword = await bcrypt.compare(req.body.password, user.password);
-    if (!validPassword) return res.status(400).send("Invalid email or password.");
-  
-    const token = jwt.sign(
-      {
-        _id: user._id,
-        usuario: user.usuario,
-        
-      },
-      process.env.SECRET_KEY,
-      {
-        expiresIn: "1h",
-      }
-    );
-  
-    res.status(200).header("Authorization", token).json({token: token});
-  });
-
+router.post("/register", register);
+router.post("/login", login);
 
 
   // Nueva ruta para subir a la base de datos
