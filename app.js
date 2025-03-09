@@ -6,6 +6,7 @@ import userRoutes from "./routes/adminRoutes.js"
 import cors from "cors"
 import protectedRoutes from "./routes/protected.routes.js";
 
+
 //import ticketRoutes from "./routes/ticket.routes.js"
 
 const app = express()
@@ -31,8 +32,9 @@ mongoose.connect(DB_URL)
 
 
 // middleware
+
 app.use(express.json()) // para que express pueda entender el json
-app.use(morgan("dev")) // para que express pueda entender el morgan y ver los datos de las peticiones
+app.use(morgan("combined")) // para que express pueda entender el morgan y ver los datos de las peticiones
 app.use(cors({
     origin: [
         "http://localhost:5501", 
